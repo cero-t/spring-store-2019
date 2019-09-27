@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ninja.cero.store</groupId>
+	<artifactId>store-parent</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<name>store-parent</name>
+	<description>store-parent</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.7.RELEASE</version>
+		<relativePath/>
+	</parent>
+
+	<properties>
+		<java.version>12</java.version>
+		<spring-cloud.version>Greenwich.SR2</spring-cloud.version>
+	</properties>
+
+	<modules>
+		<module>discovery-server</module>
+
+		<module>cart/cart-client</module>
+		<module>cart/cart-domain</module>
+		<module>cart/cart-service</module>
+
+		<module>item/item-client</module>
+		<module>item/item-domain</module>
+		<module>item/item-service</module>
+
+		<module>stock/stock-client</module>
+		<module>stock/stock-domain</module>
+		<module>stock/stock-service</module>
+
+		<module>order/order-client</module>
+		<module>order/order-domain</module>
+		<module>order/order-service</module>
+
+		<module>payment/payment-client</module>
+		<module>payment/payment-domain</module>
+		<module>payment/payment-service</module>
+
+		<module>store-web</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.logstash.logback</groupId>
+				<artifactId>logstash-logback-encoder</artifactId>
+				<version>6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>co.elastic.apm</groupId>
+				<artifactId>apm-agent-attach</artifactId>
+				<version>1.9.0</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+</project>

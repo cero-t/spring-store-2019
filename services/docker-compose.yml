@@ -1,0 +1,121 @@
+version: '2'
+
+services:
+  # Infra
+  discovery-server:
+    image: openjdk:12-jdk
+    ports:
+      - 8761:8761
+    volumes:
+      - ./discovery-server/target:/app
+    working_dir: /app
+    command: java -Xmx1g -Dspring.profiles.active=docker -jar /app/discovery-server-1.0.0.jar
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "docker.infra"
+    networks:
+      - demo
+
+  # UI
+  ui:
+    build: ./ui/
+    ports:
+      - "8080:80"
+    networks:
+      - demo
+
+  # Services
+  store-web:
+    image: openjdk:12-jdk
+    ports:
+      - 9000:9000
+    volumes:
+      - ./store-web/target:/app
+    working_dir: /app
+    command: java -Xmx1g -Dspring.profiles.active=docker -Delastic.apm.server_urls=http://elastic-apm:8200 -jar /app/store-web-1.0.0.jar
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "docker.services"
+    networks:
+      - demo
+
+  item-service:
+    image: openjdk:12-jdk
+    ports:
+      - 9001:9001
+    volumes:
+      - ./item/item-service/target:/app
+    working_dir: /app
+    command: java -Xmx1g -Dspring.profiles.active=docker -Delastic.apm.server_urls=http://elastic-apm:8200 -jar /app/item-service-1.0.0.jar
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "docker.services"
+    networks:
+      - demo
+
+  stock-service:
+    image: openjdk:12-jdk
+    ports:
+      - 9002:9002
+    volumes:
+      - ./stock/stock-service/target:/app
+    working_dir: /app
+    command: java -Xmx1g -Dspring.profiles.active=docker -Delastic.apm.server_urls=http://elastic-apm:8200 -jar /app/stock-service-1.0.0.jar
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "docker.services"
+    networks:
+      - demo
+
+  cart-service:
+    image: openjdk:12-jdk
+    ports:
+      - 9003:9003
+    volumes:
+      - ./cart/cart-service/target:/app
+    working_dir: /app
+    command: java -Xmx1g -Dspring.profiles.active=docker -Delastic.apm.server_urls=http://elastic-apm:8200 -jar /app/cart-service-1.0.0.jar
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "docker.services"
+    networks:
+      - demo
+
+  order-service:
+    image: openjdk:12-jdk
+    ports:
+      - 9004:9004
+    volumes:
+      - ./order/order-service/target:/app
+    working_dir: /app
+    command: java -Xmx1g -Dspring.profiles.active=docker -Delastic.apm.server_urls=http://elastic-apm:8200 -jar /app/order-service-1.0.0.jar
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "docker.services"
+    networks:
+      - demo
+
+  payment-service:
+    image: openjdk:12-jdk
+    ports:
+      - 9005:9005
+    volumes:
+      - ./payment/payment-service/target:/app
+    working_dir: /app
+    command: java -Xmx1g -Dspring.profiles.active=docker -Delastic.apm.server_urls=http://elastic-apm:8200 -jar /app/payment-service-1.0.0.jar
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "docker.services"
+    networks:
+      - demo
+
+networks:
+  demo:
+    external: true

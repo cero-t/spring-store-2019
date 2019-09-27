@@ -1,0 +1,62 @@
+.navbar-jw {
+  border-bottom: 1px solid #F0F0F0;
+
+  .navbar-brand {
+    display: flex;
+    height: 2rem;
+    line-height: 2rem;
+    font-weight: bold;
+    color: #474747;
+    padding: 0;
+
+    img {
+      height: 100%;
+      margin-right: 0.5rem;
+    }
+  }
+
+  .navbar-collapse {
+    margin-top: 1rem;
+  }
+
+  .nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-link.active {
+    border-color: #41b6e6;
+  }
+
+  .dropdown-cart.open {
+    position: static;
+
+    .dropdown-menu {
+      display: table;
+      width: 100%;
+      max-width: 450px;
+    }
+  }
+
+  .badge {
+    vertical-align: text-bottom;
+  }
+
+}
+
+@media (min-width: 576px) {
+
+  .navbar-jw {
+
+    .navbar-collapse {
+      margin-top: 0;
+      justify-content: flex-end;
+    }
+
+    .nav-link {
+      border-left: 0;
+      border-bottom: 2px solid transparent;
+    }
+  }
+}

@@ -1,0 +1,70 @@
+version: '2'
+
+services:
+  # Infrastructure
+  rabbit-mq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - demo
+
+  # Monitoring
+  zipkin-server:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
+    networks:
+      - demo
+
+  elasticsearch:
+    image: elasticsearch:7.3.2
+    mem_limit: 2g
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"    
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65535
+        hard: 65535
+    networks:
+      - demo
+
+  kibana:
+    image: kibana:7.3.2
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    networks:
+      - demo
+
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/config:/fluentd/etc
+    ports:
+      - "24224:24224"
+    depends_on:
+      - elasticsearch
+    networks:
+      - demo
+
+  elastic-apm:
+    image: docker.elastic.co/apm/apm-server:7.3.2
+    ports:
+      - 8200:8200
+    depends_on:
+      - elasticsearch
+    networks:
+      - demo
+
+networks:
+  demo:
+    external: true

@@ -1,43 +1,33 @@
 package ninja.cero.store.payment.client;
 
 import ninja.cero.store.payment.domain.Payment;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 public class PaymentClient {
     private static final String PAYMENT_URL = "http://payment-service";
 
-    WebClient webClient;
+    RestTemplate restTemplate;
 
-    public PaymentClient(WebClient webClient) {
-        this.webClient = webClient;
+    ParameterizedTypeReference<List<Payment>> type = new ParameterizedTypeReference<>() {
+    };
+
+    public PaymentClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public void check(Payment payment) {
-        webClient.post()
-                .uri(PAYMENT_URL + "/check")
-                .syncBody(payment)
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
+        restTemplate.postForObject(PAYMENT_URL + "/check", payment, Void.class);
     }
 
     public void processPayment(Payment payment) {
-        webClient.post()
-                .uri(PAYMENT_URL)
-                .syncBody(payment)
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
+        restTemplate.postForObject(PAYMENT_URL, payment, Void.class);
     }
 
     public List<Payment> findAll() {
-        return webClient.get()
-                .uri(PAYMENT_URL)
-                .retrieve()
-                .bodyToFlux(Payment.class)
-                .collectList()
-                .block();
+        return restTemplate.exchange(PAYMENT_URL, HttpMethod.GET, null, type).getBody();
     }
 }

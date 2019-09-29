@@ -1,7 +1,9 @@
 package ninja.cero.store.stock.client;
 
 import ninja.cero.store.stock.domain.Stock;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,37 +12,25 @@ import java.util.stream.Collectors;
 public class StockClient {
     private static final String STOCK_URL = "http://stock-service";
 
-    WebClient webClient;
+    RestTemplate restTemplate;
 
-    public StockClient(WebClient webClient) {
-        this.webClient = webClient;
+    ParameterizedTypeReference<List<Stock>> type = new ParameterizedTypeReference<>() {
+    };
+
+    public StockClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public List<Stock> findAll() {
-        return webClient.get()
-                .uri(STOCK_URL)
-                .retrieve()
-                .bodyToFlux(Stock.class)
-                .collectList()
-                .block();
+        return restTemplate.exchange(STOCK_URL, HttpMethod.GET, null, type).getBody();
     }
 
     public List<Stock> findByIds(Collection<Long> ids) {
-        String idString = ids.stream().map(id -> id.toString()).collect(Collectors.joining(","));
-        return webClient.get()
-                .uri(STOCK_URL + "/" + idString)
-                .retrieve()
-                .bodyToFlux(Stock.class)
-                .collectList()
-                .block();
+        String idString = ids.stream().map(Object::toString).collect(Collectors.joining(","));
+        return restTemplate.exchange(STOCK_URL + "/" + idString, HttpMethod.GET, null, type).getBody();
     }
 
     public void keepStock(List<Stock> keeps) {
-        webClient.post()
-                .uri(STOCK_URL)
-                .syncBody(keeps)
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
+        restTemplate.postForObject(STOCK_URL, keeps, Void.class);
     }
 }

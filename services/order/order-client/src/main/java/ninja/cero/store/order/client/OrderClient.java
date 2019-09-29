@@ -2,28 +2,33 @@ package ninja.cero.store.order.client;
 
 import ninja.cero.store.order.domain.OrderEvent;
 import ninja.cero.store.order.domain.OrderInfo;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 public class OrderClient {
-	private static final String ORDER_URL = "http://order-service";
+    private static final String ORDER_URL = "http://order-service";
 
-	WebClient webClient;
+    RestTemplate restTemplate;
 
-	public OrderClient(WebClient webClient) {
-		this.webClient = webClient;
-	}
+    ParameterizedTypeReference<List<OrderEvent>> type = new ParameterizedTypeReference<>() {
+    };
 
-	public void createOrder(OrderInfo order) {
-		webClient.post().uri(ORDER_URL).syncBody(order).exchange().block();
-	}
+    public OrderClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
-	public void createEvent(OrderEvent orderEvent) {
-		webClient.post().uri(ORDER_URL + "/" + orderEvent.orderId + "/event").syncBody(orderEvent).exchange().block();
-	}
+    public void createOrder(OrderInfo order) {
+        restTemplate.postForObject(ORDER_URL, order, Void.class);
+    }
 
-	public List<OrderEvent> findAllEvents() {
-		return webClient.get().uri(ORDER_URL + "/events").retrieve().bodyToFlux(OrderEvent.class).collectList().block();
-	}
+    public void createEvent(OrderEvent orderEvent) {
+        restTemplate.postForObject(ORDER_URL + "/" + orderEvent.orderId + "/event", orderEvent, Void.class);
+    }
+
+    public List<OrderEvent> findAllEvents() {
+        return restTemplate.exchange(ORDER_URL + "/events", HttpMethod.GET, null, type).getBody();
+    }
 }

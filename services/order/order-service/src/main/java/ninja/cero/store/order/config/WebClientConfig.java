@@ -3,30 +3,31 @@ package ninja.cero.store.order.config;
 import ninja.cero.store.cart.client.CartClient;
 import ninja.cero.store.payment.client.PaymentClient;
 import ninja.cero.store.stock.client.StockClient;
-import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class WebClientConfig {
 	@Bean
-	WebClient webClient(LoadBalancerExchangeFilterFunction lbFunction) {
-		return WebClient.builder().filter(lbFunction).build();
+	@LoadBalanced
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 
 	@Bean
-	CartClient cartClient(WebClient webClient) {
-		return new CartClient(webClient);
+	CartClient cartClient(RestTemplate restTemplate) {
+		return new CartClient(restTemplate);
 	}
 
 	@Bean
-	StockClient stockClient(WebClient webClient) {
-		return new StockClient(webClient);
+	StockClient stockClient(RestTemplate restTemplate) {
+		return new StockClient(restTemplate);
 	}
 
 	@Bean
-	PaymentClient paymentClient(WebClient webClient) {
-		return new PaymentClient(webClient);
+	PaymentClient paymentClient(RestTemplate restTemplate) {
+		return new PaymentClient(restTemplate);
 	}
 }

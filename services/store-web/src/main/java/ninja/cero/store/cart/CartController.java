@@ -34,8 +34,10 @@ public class CartController {
 
     @PostMapping("/{cartId}")
     public CartDetail addEvent(@PathVariable String cartId, @RequestBody CartEvent cartEvent) {
-        cartClient.findCartById(cartId)
-                .orElseThrow(() -> new RuntimeException("No valid cart"));
+        Cart cart = cartClient.findCartById(cartId);
+        if (cart == null) {
+            throw new RuntimeException("No valid cart");
+        }
 
         List<Stock> stocks = stockClient.findByIds(Collections.singletonList(cartEvent.itemId));
         if (stocks.isEmpty()) {

@@ -25,6 +25,7 @@
 
 	<modules>
 		<module>discovery-server</module>
+		<module>gateway-server</module>
 
 		<module>cart/cart-client</module>
 		<module>cart/cart-domain</module>

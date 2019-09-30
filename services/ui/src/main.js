@@ -21,7 +21,8 @@ import OrderForm from './components/OrderForm'
 import './styles/style.scss'
 
 // set the API root so we can use relative url's in our actions.
-Vue.http.options.root = 'http://localhost:9000'
+// Vue.http.options.root = 'http://localhost:9000'
+Vue.http.options.root = '/api'
 
 const routes = [
   { path: '/home', alias: '/', component: ProductCatalog },

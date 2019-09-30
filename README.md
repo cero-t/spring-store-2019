@@ -2,7 +2,7 @@
 
 ## How to Run
 
-1. Install `docker`
+1. Install `docker` and `docker-compose`
 
 2. create docker network
 ```

@@ -2,7 +2,7 @@
 
 ## How to Run
 
-1. Install `docker` and `docker-compose`
+1. Install `java12` and `docker`, `docker-compose`
 
 2. create docker network
 ```

@@ -17,6 +17,21 @@ services:
     networks:
       - demo
 
+  gateway-server:
+    image: openjdk:12-jdk
+    ports:
+      - 8080:8080
+    volumes:
+      - ./gateway-server/target:/app
+    working_dir: /app
+    command: java -Xmx1g -Dspring.profiles.active=docker -jar /app/gateway-server-1.0.0.jar
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "docker.infra"
+    networks:
+      - demo
+
   # UI
   ui:
     build: ./ui/

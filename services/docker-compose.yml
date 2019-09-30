@@ -21,7 +21,7 @@ services:
   ui:
     build: ./ui/
     ports:
-      - "8080:80"
+      - "8000:80"
     networks:
       - demo
 

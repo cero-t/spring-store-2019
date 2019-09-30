@@ -1,0 +1,73 @@
+#==========================  Modules configuration ============================
+
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+  #reload.period: 10s
+
+#==================== Elasticsearch template setting ==========================
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+  #_source.enabled: false
+
+#================================ General =====================================
+
+#name:
+#tags: ["service-X", "web-tier"]
+#fields:
+#  env: staging
+
+#============================== Dashboards =====================================
+
+setup.dashboards.enabled: false
+
+#============================== Kibana =====================================
+
+setup.kibana:
+  host: "kibana:5601"
+  #space.id:
+
+#============================= Elastic Cloud ==================================
+
+#cloud.id:
+#cloud.auth:
+
+#================================ Outputs =====================================
+
+#-------------------------- Elasticsearch output ------------------------------
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  #protocol: "https"
+  #username: "elastic"
+  #password: "changeme"
+
+#----------------------------- Logstash output --------------------------------
+
+  #output.logstash:
+  #hosts: ["localhost:5044"]
+  #ssl.certificate_authorities: ["/etc/pki/root/ca.pem"]
+  #ssl.certificate: "/etc/pki/client/cert.pem"
+  #ssl.key: "/etc/pki/client/cert.key"
+
+#================================ Processors =====================================
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
+
+#================================ Logging =====================================
+
+#logging.level: debug
+#logging.selectors: ["*"]
+
+#============================== Xpack Monitoring ===============================
+
+#monitoring.enabled: false
+#monitoring.cluster_uuid:
+#monitoring.elasticsearch:
+
+#================================= Migration ==================================
+
+#migration.6_to_7.enabled: true

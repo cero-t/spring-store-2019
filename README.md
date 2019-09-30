@@ -21,11 +21,19 @@ curl localhost:9200
 curl localhost:5601
 ```
 
-5. Build and run services
+5. Create Kibana dashboard (only for initialization)
+```
+cd infra/metricbeat_dashboard
+./create_dashboard.sh
+```
+
+6. Build and run services
 ```
 cd services
 ./build.sh
 docker-compose up
 ```
 
-6. Open `http://localhost:8080` in browser
+7. Open `http://localhost:8761` in browser and check all services are available
+
+8. Open `http://localhost:8000` in browser

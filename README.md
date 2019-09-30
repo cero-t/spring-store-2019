@@ -36,4 +36,4 @@ docker-compose up
 
 7. Open `http://localhost:8761` in browser and check all services are available
 
-8. Open `http://localhost:8000` in browser
+8. Open `http://localhost:8080` in browser

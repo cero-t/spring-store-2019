@@ -46,15 +46,13 @@ services:
       - demo
 
   metricbeat:
-    image: docker.elastic.co/beats/metricbeat:7.3.2
+    build: ./metricbeat
     user: root
     volumes:
       - /proc:/hostfs/proc:ro
       - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
       - /:/hostfs:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
-      - ./metricbeat/modules.d:/usr/share/metricbeat/modules.d
     depends_on:
       - elasticsearch
       - kibana

@@ -2,7 +2,7 @@
 
 ## How to Run
 
-1. Install `java12` and `docker`, `docker-compose`
+1. Install `java11` and `docker`, `docker-compose`
 
 2. create docker network
 ```
@@ -18,7 +18,7 @@ docker-compose up
 4. Confirm infrastructures are up
 ```
 curl localhost:9200
-curl localhost:5601
+curl localhost:5601 -i
 ```
 
 5. Create Kibana dashboard (only for initialization)

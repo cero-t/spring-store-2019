@@ -3,7 +3,7 @@ version: '2'
 services:
   # Infra
   discovery-server:
-    image: openjdk:12-jdk
+    image: openjdk:11-jdk
     ports:
       - 8761:8761
     volumes:
@@ -18,7 +18,7 @@ services:
       - demo
 
   gateway-server:
-    image: openjdk:12-jdk
+    image: openjdk:11-jdk
     ports:
       - 8080:8080
     volumes:
@@ -42,7 +42,7 @@ services:
 
   # Services
   store-web:
-    image: openjdk:12-jdk
+    image: openjdk:11-jdk
     ports:
       - 9000:9000
     volumes:
@@ -57,7 +57,7 @@ services:
       - demo
 
   item-service:
-    image: openjdk:12-jdk
+    image: openjdk:11-jdk
     ports:
       - 9001:9001
     volumes:
@@ -72,7 +72,7 @@ services:
       - demo
 
   stock-service:
-    image: openjdk:12-jdk
+    image: openjdk:11-jdk
     ports:
       - 9002:9002
     volumes:
@@ -87,7 +87,7 @@ services:
       - demo
 
   cart-service:
-    image: openjdk:12-jdk
+    image: openjdk:11-jdk
     ports:
       - 9003:9003
     volumes:
@@ -102,7 +102,7 @@ services:
       - demo
 
   order-service:
-    image: openjdk:12-jdk
+    image: openjdk:11-jdk
     ports:
       - 9004:9004
     volumes:
@@ -117,7 +117,7 @@ services:
       - demo
 
   payment-service:
-    image: openjdk:12-jdk
+    image: openjdk:11-jdk
     ports:
       - 9005:9005
     volumes:
